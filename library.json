@@ -1,0 +1,30 @@
+{
+  "title": "H5PEditor.CodeWidget",
+  "majorVersion": 5,
+  "minorVersion": 15,
+  "patchVersion": 0,
+  "runnable": 0,
+  "coreApi": {
+    "majorVersion": 1,
+    "minorVersion": 12
+  },
+  "machineName": "H5PEditor.CodeWidget",
+  "author": "Andreas Siebel",
+  "preloadedDependencies": [
+    {
+      "machineName": "H5P.LibCodeTools",
+      "majorVersion": 5,
+      "minorVersion": 15
+    }
+  ],
+  "preloadedJs": [
+    {
+      "path": "dist/h5p-editor-code-widget.js"
+    }
+  ],
+  "preloadedCss": [
+    {
+      "path": "dist/h5p-editor-code-widget.css"
+    }
+  ]
+}
