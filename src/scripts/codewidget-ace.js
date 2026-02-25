@@ -1,13 +1,9 @@
 export default class CodeWidgetAce extends H5P.AceEditor {
-  
-  constructor(parent, language, question, options) {
-    super(parent, options); 
-    this.language = language;
+  constructor(parent, codingLanguage, question, options) {
+    super(parent, options);
+    this.codingLanguage = codingLanguage;
     this.question = question;
-    if (this.language === 'markdown') {
-      this.showLineNumbers = false;
-    }
-  } 
+  }
 
   getPages() {
     return [];
@@ -15,8 +11,8 @@ export default class CodeWidgetAce extends H5P.AceEditor {
 
   getMode() {
     return `ace/mode/${this.language}`;
-  } 
- 
+  }
+
   getButtons() {
     return [];
   }
@@ -25,15 +21,14 @@ export default class CodeWidgetAce extends H5P.AceEditor {
     this.setCode();
   }
 
-  setCode()  {
+  setCode() {
     const code = this.getCode();
     this.question.setValue(this.question.field, code);
   }
- 
-  setupObservers()  {
+
+  setupObservers() {
     // pass
   }
 
-  addButtonListeners() {
-  }
+  addButtonListeners() {}
 }

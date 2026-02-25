@@ -29,24 +29,19 @@ export default class CodeWidget {
     this.wrapper.id = `h5p_codewidget_wrapper_${H5P.createUUID()}`;
     this.wrapper.className = "ace_editor_wrapper";
     this.parentDiv.append(this.wrapper);
-    const language = field.options?.[0]?.language ?? "python";
+    const codingLanguage = field.options?.[0]?.language ?? "python";
     const showAlways = field.options?.[0]?.showAlways ?? false;
 
-    this.codeContainer = new H5PEditor.CodeWidgetContainer(
-      this.wrapper,
-      language,
-      {
-        code: this.params,
-        manualSetup: true,
-        hasButtons: false,
-        hasConsole: false,
-        language: language,
-        showAlways: showAlways,
-        onChangeCallback: (code) => {
-          this.setValue(this.field, code);
-        },
+    this.codeContainer = new H5PEditor.CodeWidgetContainer(this.wrapper, {
+      code: this.params,
+      hasButtons: false,
+      hasConsole: false,
+      codingLanguage: codingLanguage,
+      showAlways: showAlways,
+      onChangeCallback: (code) => {
+        this.setValue(this.field, code);
       },
-    );
+    });
 
     if (field.optional && !showAlways) {
       let showButton = document.createElement("button");

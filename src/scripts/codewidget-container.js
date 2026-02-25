@@ -1,8 +1,9 @@
 export default class CodeWidgetContainer extends H5P.CodeContainer {
-  constructor(parent, language, options) {
+  constructor(parent, options) {
     super(parent, options);
-    this.language = language;
-    if (this.language === "markdown") {
+
+    this.codingLanguage = options.codingLanguage;
+    if (this.codingLanguage === "markdown") {
       this.showLineNumbers = false;
     }
   }
