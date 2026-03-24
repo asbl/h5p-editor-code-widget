@@ -1,3 +1,6 @@
+.h5peditor-pythonquestion-show-when.hidden {
+    display: none;
+}
 .h5peditor-codewidget-field .description {
     font-size: 10px;
     font-style: italic;
