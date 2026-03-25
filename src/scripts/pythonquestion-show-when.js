@@ -92,6 +92,7 @@ export default function PythonQuestionShowWhen(parent, field, params, setValue) 
   });
   let showing = false;
   let domListenersBound = false;
+  const registeredRules = new Set();
   const config = self.field.showWhen;
 
   if (config === undefined) {
@@ -132,12 +133,14 @@ export default function PythonQuestionShowWhen(parent, field, params, setValue) 
       return;
     }
 
+    const $scope = self.$container?.closest('.h5peditor-list-item, .h5peditor-group, .field') || H5PEditor.$(document.body);
+
     config.rules.forEach((rule) => {
       if (typeof rule.field !== 'string' || rule.field.includes('/')) {
         return;
       }
 
-      const select = document.querySelector(`.field-name-${rule.field} select`);
+      const select = $scope.find(`.field-name-${rule.field} select`).get(0);
       if (select) {
         select.addEventListener('change', updateVisibility);
         domListenersBound = true;
@@ -145,15 +148,32 @@ export default function PythonQuestionShowWhen(parent, field, params, setValue) 
     });
   };
 
-  for (let index = 0; index < config.rules.length; index += 1) {
-    const rule = config.rules[index];
-    const targetField = H5PEditor.findField(rule.field, parent);
-    const handler = createFieldHandler(targetField, rule.equals);
-
-    if (handler !== undefined) {
-      ruleHandler.add(handler);
-      H5PEditor.followField(parent, rule.field, updateVisibility);
+  const registerRule = (rule, index, attempt = 0) => {
+    if (registeredRules.has(index)) {
+      return;
     }
+
+    const targetField = H5PEditor.findField(rule.field, parent);
+    if (!targetField || !Array.isArray(targetField.changes)) {
+      if (attempt < 25) {
+        setTimeout(() => registerRule(rule, index, attempt + 1), 0);
+      }
+      return;
+    }
+
+    const handler = createFieldHandler(targetField, rule.equals);
+    if (handler === undefined) {
+      return;
+    }
+
+    ruleHandler.add(handler);
+    targetField.changes.push(updateVisibility);
+    registeredRules.add(index);
+    updateVisibility();
+  };
+
+  for (let index = 0; index < config.rules.length; index += 1) {
+    registerRule(config.rules[index], index);
   }
 
   const widgetName = config.widget || field.type;
