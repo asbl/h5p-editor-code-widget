@@ -3,16 +3,16 @@ export default class CodeWidgetContainer extends H5P.CodeContainer {
     super(parent, options);
 
     this.codingLanguage = options.codingLanguage;
-    if (this.codingLanguage === "markdown") {
+    if (this.codingLanguage === 'markdown') {
       this.showLineNumbers = false;
     }
   }
 
-  getPagemanager(parent, options, empty) {
+  getPagemanager(parent, options, _empty) {
     return super.getPageManager(parent, options, true);
   }
 
-  getButtonManager(parent, options, empty) {
+  getButtonManager(parent, options, _empty) {
     return super.getButtonManager(parent, options, true);
   }
 
@@ -25,6 +25,7 @@ export default class CodeWidgetContainer extends H5P.CodeContainer {
   }
 
   setCode() {
+    const code = this.getCode();
     this.question.setValue(this.question.field, code);
   }
 }
