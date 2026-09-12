@@ -1,7 +1,7 @@
 {
   "title": "h5p-editor-code-widget",
   "majorVersion": 6,
-  "minorVersion": 92,
+  "minorVersion": 93,
   "patchVersion": 0,
   "runnable": 0,
   "coreApi": {
