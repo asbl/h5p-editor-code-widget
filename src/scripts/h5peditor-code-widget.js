@@ -31,6 +31,7 @@ export default class CodeWidget {
     this.parentDiv.append(this.wrapper);
     const codingLanguage = field.options?.[0]?.language ?? 'python';
     const showAlways = field.options?.[0]?.showAlways ?? false;
+    const theme = field.options?.[0]?.theme ?? 'light';
 
     this.codeContainer = new H5PEditor.CodeWidgetContainer(this.wrapper, {
       code: this.params,
@@ -38,7 +39,9 @@ export default class CodeWidget {
       hasConsole: false,
       codingLanguage: codingLanguage,
       showAlways: showAlways,
+      theme: theme,
       onChangeCallback: (code) => {
+        this.params = code;
         this.setValue(this.field, code);
       },
     });
@@ -46,7 +49,7 @@ export default class CodeWidget {
     if (field.optional && !showAlways) {
       let showButton = document.createElement('button');
       showButton.className = 'show-widget-button';
-      showButton.textContent = 'Show Editor';
+      showButton.textContent = H5PEditor.t('H5PEditor.CodeWidget', 'showEditor');
       this.parentDiv.appendChild(showButton);
 
       showButton.addEventListener('click', () => {
@@ -78,6 +81,9 @@ export default class CodeWidget {
    * @returns {boolean} True, if current value is valid, else false.
    */
   validate() {
+    if (!this.field.optional && !this.params) {
+      return false;
+    }
     return true;
   }
 
